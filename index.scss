@@ -1,0 +1,67 @@
+@function random-color($saturation: 0.5, $lightness: 0.5) {
+	/* stylelint-disable-next-line number-max-precision */
+	$golden-ratio-conjugate: 0.618033988749895;
+	$hue: (random() + $golden-ratio-conjugate) % 1;
+	@return hsl($hue * 360, $saturation * 100, $lightness * 100);
+}
+
+@function string-replace($string, $search, $replacement: '') {
+	$index: str-index($string: $string, $substring: $search);
+
+	@if $index {
+		@return
+			str-slice($string, $start-at: 1, $end-at: $index - 1)
+			+ $replacement
+			+ string-replace(str-slice($string, $start-at: $index + str-length($search)), $search, $replacement);
+	}
+
+	@return $string;
+}
+
+@function url-encode($string) {
+	$map: (
+		// URL reserved characters
+		'!': '%21',
+		'#': '%23',
+		'$': '%24',
+		'&': '%26',
+		'\'': '%27',
+		'(': '%28',
+		')': '%29',
+		'*': '%2A',
+		'+': '%2B',
+		',': '%2C',
+		'/': '%2F',
+		':': '%3A',
+		';': '%3B',
+		'=': '%3D',
+		'?': '%3F',
+		'@': '%40',
+		'[': '%5B',
+		']': '%5D',
+		// In case the result is wrapped in double-quotes
+		'"': '%22'
+	);
+
+	$ret: $string;
+	@each $search, $replacement in $map {
+		$ret: string-replace($ret, $search, $replacement);
+	}
+
+	@return $ret;
+}
+
+@function svg-url($svg) {
+	// Add missing namespace
+	$namespace: 'xmlns="http://www.w3.org/2000/svg"';
+	@if not str-index($string: $svg, $substring: $namespace) {
+		$svg: string-replace($string: $svg, $search: '<svg', $replacement: '<svg #{$namespace}');
+	}
+
+	@return url('data:image/svg+xml;utf8,#{url-encode($svg)}');
+}
+
+// Background SVG mixin
+@mixin background-svg($svg) {
+	background-image: svg-url($svg);
+}

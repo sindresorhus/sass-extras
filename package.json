@@ -1,0 +1,43 @@
+{
+	"name": "sass-extras",
+	"version": "0.0.0",
+	"description": "Useful utilities for working with Sass",
+	"license": "MIT",
+	"repository": "sindresorhus/sass-extras",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "sindresorhus.com"
+	},
+	"engines": {
+		"node": ">=8"
+	},
+	"scripts": {
+		"test": "stylelint *.scss && ava"
+	},
+	"files": [
+		"index.scss"
+	],
+	"keywords": [
+		"sass",
+		"scss",
+		"mixins",
+		"functions",
+		"helpers",
+		"helper",
+		"utility",
+		"util",
+		"utilities"
+	],
+	"devDependencies": {
+		"ava": "*",
+		"stylelint": "^8.4.0",
+		"stylelint-config-xo-scss": "^0.1.1"
+	},
+	"stylelint": {
+		"extends": "stylelint-config-xo-scss",
+		"rules": {
+			"scss/at-function-named-arguments": null
+		}
+	}
+}
