@@ -1,6 +1,6 @@
 {
 	"name": "sass-extras",
-	"version": "0.1.0",
+	"version": "0.2.0",
 	"description": "Useful utilities for working with Sass",
 	"license": "MIT",
 	"repository": "sindresorhus/sass-extras",
