@@ -29,7 +29,7 @@
 ///
 /// @example
 ///   @debug string-replace('foo bar baz', $search: 'bar', $replacement: 'unicorn');
-///    //=> 'foo unicorn baz'
+///   //=> 'foo unicorn baz'
 @function string-replace($string, $search, $replacement: '') {
 	$index: str-index($string: $string, $substring: $search);
 
@@ -91,7 +91,14 @@
 /// @return {Color}
 ///
 /// @example
-///   background-color: random-color();
+///   .foo {
+///   	background-color: random-color();
+///   }
+///
+/// @example css - Output CSS
+///   .foo {
+///   	background-color: random-color();
+///   }
 @function random-color($saturation: 0.5, $lightness: 0.5) {
 	/* stylelint-disable-next-line number-max-precision */
 	$golden-ratio-conjugate: 0.618033988749895;
@@ -102,8 +109,18 @@
 /// Lighten a color by mixing it with white.
 ///
 /// @parameter {Color} $color - Color to lighten
-/// @parameter {Number} $percentage - Percentage of white color to mix in
+/// @parameter {Number} $percentage - Amount of white color to mix in
 /// @return {Color}
+///
+/// @example
+///   a {
+///   	color: tint(pink, 10%);
+///   }
+///
+/// @example css - Output CSS
+///   a {
+///   	color: #ffc6d0;
+///   }
 @function tint($color, $percentage) {
 	@return mix(#fff, $color, $percentage);
 }
@@ -111,15 +128,25 @@
 /// Darken a color by mixing it with black.
 ///
 /// @parameter {Color} $color - Color to darken
-/// @parameter {Number} $percentage - Percentage of black color to mix in
+/// @parameter {Number} $percentage - Amount of black color to mix in
 /// @return {Color}
+///
+/// @example
+///   a {
+///   	color: shade(pink, 10%);
+///   }
+///
+/// @example css - Output CSS
+///   a {
+///   	color: #e6adb7;
+///   }
 @function shade($color, $percentage) {
 	@return mix(#000, $color, $percentage);
 }
 
 /// Use SVG anywhere a `url()` is accepted, like in a `background` property.
 ///
-/// @parameter {string} $svg - SVG string. The `xmlns` attribute is added for you.
+/// @parameter {String} $svg - SVG string. The `xmlns` attribute is added for you.
 ///
 /// @example
 ///   body {
@@ -150,6 +177,11 @@
 /// System font stack.
 ///
 /// @type List
+///
+/// @example
+///   body {
+///   	font-family: $system-fonts;
+///   }
 $system-fonts:
 	'-apple-system',
 	'BlinkMacSystemFont',
