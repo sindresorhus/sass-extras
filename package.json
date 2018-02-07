@@ -13,7 +13,8 @@
 		"node": ">=8"
 	},
 	"scripts": {
-		"test": "stylelint *.scss && ava"
+		"test": "stylelint index.scss && ava",
+		"version": "sassdoc --dest=docs index.scss && git add docs"
 	},
 	"files": [
 		"index.scss"
@@ -31,8 +32,10 @@
 	],
 	"devDependencies": {
 		"ava": "*",
+		"node-sass": "^4.7.2",
+		"sassdoc": "^2.5.0",
 		"stylelint": "^8.4.0",
-		"stylelint-config-xo-scss": "^0.1.1"
+		"stylelint-config-xo-scss": "^0.2.0"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo-scss",

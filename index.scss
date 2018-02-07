@@ -1,10 +1,35 @@
-@function random-color($saturation: 0.5, $lightness: 0.5) {
-	/* stylelint-disable-next-line number-max-precision */
-	$golden-ratio-conjugate: 0.618033988749895;
-	$hue: (random() + $golden-ratio-conjugate) % 1;
-	@return hsl($hue * 360, $saturation * 100, $lightness * 100);
+/// Strip the unit from a number.
+///
+/// @parameter {Number} $number
+/// @return {Number}
+///
+/// @example
+///   @debug strip-unit(5px);
+///   //=> 5
+@function strip-unit($number) {
+	@return $number / ($number * 0 + 1);
 }
 
+/// Clamp `$number` between `$min` and `$max`.
+///
+/// @parameter {Number} $number - Number to clamp
+/// @parameter {Number} $min - Minimum number
+/// @parameter {Number} $max - Maximum number
+/// @return {Number}
+@function clamp($number, $min, $max) {
+	@return min(max($number, $min), $max);
+}
+
+/// Replace substring `$search` in `$string` with `$replacement`.
+///
+/// @parameter {String} $string - String to search
+/// @parameter {String} $search - Substring to search for in `$string`
+/// @parameter {String} $replacement - Replacement for `$search`
+/// @return {String}
+///
+/// @example
+///   @debug string-replace('foo bar baz', $search: 'bar', $replacement: 'unicorn');
+///    //=> 'foo unicorn baz'
 @function string-replace($string, $search, $replacement: '') {
 	$index: str-index($string: $string, $substring: $search);
 
@@ -18,6 +43,14 @@
 	@return $string;
 }
 
+/// Encode URL-unsafe characters in `$string`.
+///
+/// @parameter {String} $string
+/// @return {String}
+///
+/// @example
+///   @debug url-encode('#foo@bar');
+///   //=> '%23foo%40bar'
 @function url-encode($string) {
 	$map: (
 		// URL reserved characters
@@ -51,6 +84,47 @@
 	@return $ret;
 }
 
+/// Get a random [aesthetically pleasing color](https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/).
+///
+/// @parameter {Number} $saturation [0.5] - Color saturation in the range `0...1`
+/// @parameter {Number} $lightness [0.5] - Color lightness in the range `0...1`
+/// @return {Color}
+///
+/// @example
+///   background-color: random-color();
+@function random-color($saturation: 0.5, $lightness: 0.5) {
+	/* stylelint-disable-next-line number-max-precision */
+	$golden-ratio-conjugate: 0.618033988749895;
+	$hue: (random() + $golden-ratio-conjugate) % 1;
+	@return hsl($hue * 360, $saturation * 100, $lightness * 100);
+}
+
+/// Lighten a color by mixing it with white.
+///
+/// @parameter {Color} $color - Color to lighten
+/// @parameter {Number} $percentage - Percentage of white color to mix in
+/// @return {Color}
+@function tint($color, $percentage) {
+	@return mix(#fff, $color, $percentage);
+}
+
+/// Darken a color by mixing it with black.
+///
+/// @parameter {Color} $color - Color to darken
+/// @parameter {Number} $percentage - Percentage of black color to mix in
+/// @return {Color}
+@function shade($color, $percentage) {
+	@return mix(#000, $color, $percentage);
+}
+
+/// Use SVG anywhere a `url()` is accepted, like in a `background` property.
+///
+/// @parameter {string} $svg - SVG string. The `xmlns` attribute is added for you.
+///
+/// @example
+///   body {
+///   	background: svg-url('<svg>…</svg>');
+///   }
 @function svg-url($svg) {
 	// Add missing namespace
 	$namespace: 'xmlns="http://www.w3.org/2000/svg"';
@@ -61,7 +135,29 @@
 	@return url('data:image/svg+xml;utf8,#{url-encode($svg)}');
 }
 
-// Background SVG mixin
+/// Set SVG as `background-image`.
+///
+/// @parameter {String} $svg - SVG string. The `xmlns` attribute is added for you.
+///
+/// @example
+///   body {
+///   	@include background-svg('<svg>…</svg>');
+///   }
 @mixin background-svg($svg) {
 	background-image: svg-url($svg);
 }
+
+/// System font stack.
+///
+/// @type List
+$system-fonts:
+	'-apple-system',
+	'BlinkMacSystemFont',
+	'Segoe UI',
+	'Roboto',
+	'Helvetica',
+	'Arial',
+	'sans-serif',
+	'Apple Color Emoji',
+	'Segoe UI Emoji',
+	'Segoe UI Symbol' !default;

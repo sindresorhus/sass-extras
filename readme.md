@@ -2,6 +2,8 @@
 
 > Useful utilities for working with Sass
 
+It includes functions for using SVG inline, generating random colors, system font stack, and more…
+
 
 ## Install
 
@@ -25,7 +27,7 @@ Or with [`sass-loader`](https://github.com/webpack-contrib/sass-loader):
 
 ## Docs
 
-Coming soon…
+[Read the docs.](https://sindresorhus.com/sass-extras)
 
 
 ## Related
