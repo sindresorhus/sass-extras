@@ -37,6 +37,7 @@ Or with [`sass-loader`](https://github.com/webpack-contrib/sass-loader):
 ## Related
 
 - [react-extras](https://github.com/sindresorhus/react-extras) - Useful components and utilities for working with React
+- [modern-normalize](https://github.com/sindresorhus/modern-normalize) - Normalize browsers' default style
 
 
 ## License
