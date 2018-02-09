@@ -1,0 +1,8 @@
+dest: docs
+groups:
+  number: Number
+  string: String
+  list: List
+  map: Map
+  color: Color
+  random: Random

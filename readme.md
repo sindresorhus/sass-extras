@@ -2,7 +2,7 @@
 
 > Useful utilities for working with Sass
 
-It includes functions for using SVG inline, generating random colors, system font stack, and more…
+It includes functions for using SVG inline, generating random colors, system font stack, PRNG, and more…
 
 
 ## Install

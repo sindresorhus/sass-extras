@@ -1,5 +1,7 @@
 /// Strip the unit from a number.
 ///
+/// @group number
+///
 /// @parameter {Number} $number
 /// @return {Number}
 ///
@@ -12,15 +14,80 @@
 
 /// Clamp `$number` between `$min` and `$max`.
 ///
+/// @group number
+///
 /// @parameter {Number} $number - Number to clamp
 /// @parameter {Number} $min - Minimum number
 /// @parameter {Number} $max - Maximum number
 /// @return {Number}
-@function clamp($number, $min, $max) {
+@function number-clamp($number, $min, $max) {
 	@return min(max($number, $min), $max);
 }
 
+/// Invert a number.
+///
+/// @group number
+///
+/// @parameter {Number} $number - Number to invert
+/// @return {Number}
+///
+/// @example
+///   @debug number-invert(5);
+///   //=> -5
+@function number-invert($number) {
+	@return $number * -1;
+}
+
+/// Check if `$string` contains the given `$substring`.
+///
+/// @group string
+///
+/// @parameter {String} $string - String to check
+/// @parameter {String} $substring - Substring to search for in `$string`
+/// @return {Boolean}
+///
+/// @example
+///   @debug string-contains('foo bar baz', $substring: 'bar');
+///   //=> true
+@function string-contains($string, $substring) {
+	@return str-index($string, $substring) != null;
+}
+
+/// Check if `$string` starts with the given `$substring`.
+///
+/// @group string
+///
+/// @parameter {String} $string - String to check
+/// @parameter {String} $substring - Substring to search for at the start of `$string`
+/// @return {Boolean}
+///
+/// @example
+///   @debug string-starts-with('foo bar', $substring: 'foo');
+///   //=> true
+@function string-starts-with($string, $substring) {
+	@return str-index($string, $substring) == 1;
+}
+
+/// Check if `$string` ends with the given `$substring`.
+///
+/// @group string
+///
+/// @parameter {String} $string - String to check
+/// @parameter {String} $substring - Substring to search for at the end of `$string`
+/// @return {Boolean}
+///
+/// @example
+///   @debug string-ends-with('foo bar', $substring: 'bar');
+///   //=> true
+@function string-ends-with($string, $substring) {
+	// This crashes libsass…
+	// @return str-slice($string, str-length($substring) * -1) == $substring;
+	@return str-slice($string, (str-length($string) - str-length($substring) + 1)) == $substring;
+}
+
 /// Replace substring `$search` in `$string` with `$replacement`.
+///
+/// @group string
 ///
 /// @parameter {String} $string - String to search
 /// @parameter {String} $search - Substring to search for in `$string`
@@ -41,6 +108,115 @@
 	}
 
 	@return $string;
+}
+
+/// Get the first element of `$list`.
+///
+/// @group list
+///
+/// @parameter {List} $list
+/// @return {*}
+///
+/// @example
+///   @debug list-first((1, 2, 3));
+///   //=> 1
+@function list-first($list) {
+	@return nth($list, 1);
+}
+
+/// Get the last element of `$list`.
+///
+/// @group list
+///
+/// @parameter {List} $list
+/// @return {*}
+///
+/// @example
+///   @debug list-last((1, 2, 3));
+///   //=> 3
+@function list-last($list) {
+	@return nth($list, -1);
+}
+
+/// Generate a pseudorandom integer.
+/// Uses the [`Park-Miller` algorithm](https://en.m.wikipedia.org/wiki/Lehmer_random_number_generator).
+///
+/// @group random
+///
+/// @parameter {Number} $seed - The same [`$seed`](https://en.m.wikipedia.org/wiki/Random_seed) will generate the same number
+/// @return {Number}
+///
+/// @example
+///   @debug seed-random-integer(5);
+///   //=> 84035
+@function seed-random-integer($seed) {
+	$max-int32: 2147483647;
+	$minstd: 16807;
+	$seed: $seed % $max-int32;
+
+	@if ($seed <= 0) {
+		$seed: $seed + ($max-int32 - 1);
+	}
+
+	@return ($seed * $minstd) % $max-int32;
+}
+
+/// Generate a pseudorandom float.
+/// Uses the [`Park-Miller` algorithm](https://en.m.wikipedia.org/wiki/Lehmer_random_number_generator).
+///
+/// Note: You'll need to increase the default Sass precision to at least 10 for this method to be useful.
+///
+/// @group random
+///
+/// @parameter {Number} $seed - The same [`$seed`](https://en.m.wikipedia.org/wiki/Random_seed) will generate the same number
+/// @return {Number}
+///
+/// @example
+///   @debug seed-random-float(5);
+///   //=> 0.0000391314
+@function seed-random-float($seed) {
+	$max-int32: 2147483647;
+	$integer: seed-random-integer($seed);
+	@return ($integer - 1) / ($max-int32 - 1);
+}
+
+/// Generate a pseudorandom boolean.
+/// Uses the [`Park-Miller` algorithm](https://en.m.wikipedia.org/wiki/Lehmer_random_number_generator).
+///
+/// @group random
+///
+/// @parameter {Number} $seed - The same [`$seed`](https://en.m.wikipedia.org/wiki/Random_seed) will generate the same number
+/// @return {Boolean}
+///
+/// @example
+///   @debug seed-random-boolean(5);
+///   //=> false
+@function seed-random-boolean($seed) {
+	@return seed-random-integer($seed) % 2 == 0;
+}
+
+/// Get a random [aesthetically pleasing color](https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/).
+///
+/// @group random
+///
+/// @parameter {Number} $saturation [0.5] - Color saturation in the range `0...1`
+/// @parameter {Number} $lightness [0.5] - Color lightness in the range `0...1`
+/// @return {Color}
+///
+/// @example
+///   .foo {
+///   	background-color: random-color();
+///   }
+///
+/// @example css - Output CSS
+///   .foo {
+///   	background-color: random-color();
+///   }
+@function random-color($saturation: 0.5, $lightness: 0.5) {
+	/* stylelint-disable-next-line number-max-precision */
+	$golden-ratio-conjugate: 0.618033988749895;
+	$hue: (random() + $golden-ratio-conjugate) % 1;
+	@return hsl($hue * 360, $saturation * 100, $lightness * 100);
 }
 
 /// Encode URL-unsafe characters in `$string`.
@@ -84,29 +260,9 @@
 	@return $ret;
 }
 
-/// Get a random [aesthetically pleasing color](https://martin.ankerl.com/2009/12/09/how-to-create-random-colors-programmatically/).
-///
-/// @parameter {Number} $saturation [0.5] - Color saturation in the range `0...1`
-/// @parameter {Number} $lightness [0.5] - Color lightness in the range `0...1`
-/// @return {Color}
-///
-/// @example
-///   .foo {
-///   	background-color: random-color();
-///   }
-///
-/// @example css - Output CSS
-///   .foo {
-///   	background-color: random-color();
-///   }
-@function random-color($saturation: 0.5, $lightness: 0.5) {
-	/* stylelint-disable-next-line number-max-precision */
-	$golden-ratio-conjugate: 0.618033988749895;
-	$hue: (random() + $golden-ratio-conjugate) % 1;
-	@return hsl($hue * 360, $saturation * 100, $lightness * 100);
-}
-
 /// Lighten a color by mixing it with white.
+///
+/// @group color
 ///
 /// @parameter {Color} $color - Color to lighten
 /// @parameter {Number} $percentage - Amount of white color to mix in
@@ -127,6 +283,8 @@
 
 /// Darken a color by mixing it with black.
 ///
+/// @group color
+///
 /// @parameter {Color} $color - Color to darken
 /// @parameter {Number} $percentage - Amount of black color to mix in
 /// @return {Color}
@@ -142,6 +300,46 @@
 ///   }
 @function shade($color, $percentage) {
 	@return mix(#000, $color, $percentage);
+}
+
+/// Get the color black with a given `$opacity`.
+///
+/// @group color
+///
+/// @parameter {Number} $opacity - Opacity percentage
+/// @return {Color}
+///
+/// @example
+///   a {
+///   	color: black(10%);
+///   }
+///
+/// @example css - Output CSS
+///   a {
+///   	color: rgba(0, 0, 0, 0.1);
+///   }
+@function black($opacity) {
+	@return rgba(0, 0, 0, $opacity / 100%);
+}
+
+/// Get the color white with a given `$opacity`.
+///
+/// @group color
+///
+/// @parameter {Number} $opacity - Opacity percentage
+/// @return {Color}
+///
+/// @example
+///   a {
+///   	color: white(10%);
+///   }
+///
+/// @example css - Output CSS
+///   a {
+///   	color: rgba(255, 255, 255, 0.1);
+///   }
+@function white($opacity) {
+	@return rgba(255, 255, 255, $opacity / 100%);
 }
 
 /// Use SVG anywhere a `url()` is accepted, like in a `background` property.
@@ -184,12 +382,20 @@
 ///   }
 $system-fonts:
 	'-apple-system',
+	'system-ui',
 	'BlinkMacSystemFont',
 	'Segoe UI',
-	'Roboto',
-	'Helvetica',
+	'Helvetica Neue',
 	'Arial',
 	'sans-serif',
 	'Apple Color Emoji',
 	'Segoe UI Emoji',
 	'Segoe UI Symbol' !default;
+
+$system-fonts-mono:
+	'SFMono-Regular',
+	'Ubuntu Mono',
+	'Consolas',
+	'DejaVu Sans Mono',
+	'Menlo',
+	'monospace' !default;
