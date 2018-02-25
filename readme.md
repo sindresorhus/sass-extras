@@ -16,6 +16,11 @@ $ npm install sass-extras
 </a>
 
 
+## Supported browsers
+
+Latest Chrome, Firefox, and Safari.
+
+
 ## Usage
 
 ```scss
