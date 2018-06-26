@@ -372,6 +372,42 @@
 	background-image: svg-url($svg);
 }
 
+/// Include a block with a changed context.
+///
+/// @parameter {String} $changed - Old parent selector. Any parent.
+/// @parameter {String} $to - New parent selector. Any parent.
+///
+/// @example
+///   .tabs {
+///   	.tab {
+///   		background: pink;
+///
+///   		.icon {
+///   			color: gray;
+///
+///   			@include context($changed: '.tab', $to: '.tab:hover') {
+///   				color: blue;
+///   			}
+///   		}
+///   	}
+/// }
+///
+/// @example css - Output CSS
+///   .tabs .tab {
+///   	background: pink;
+///   }
+///   .tabs .tab .icon {
+///   	color: gray;
+///   }
+///   .tabs .tab:hover .icon {
+///   	color: blue;
+///   }
+@mixin context($changed, $to) {
+	@at-root #{selector-replace(&, $changed, $to)} {
+		@content;
+	}
+}
+
 /// System font stack.
 ///
 /// @type List

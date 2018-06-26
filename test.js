@@ -125,3 +125,15 @@ test('@svg-url()', t => {
 test('@background-svg()', t => {
 	snapshotProp(t, '@include background-svg(\'<svg width="8" height="13"><defs><path d="M6.828 5.368c-"/></defs></svg>\')');
 });
+
+test('@context()', t => {
+	snapshotProp(t, `
+		.foo {
+			.unicorn {
+				@include context($changed: '.foo', $to: '.bar') {
+					color: blue;
+				}
+			}
+		}
+	`);
+});
