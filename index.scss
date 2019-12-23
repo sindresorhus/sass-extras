@@ -154,7 +154,7 @@
 	$minstd: 16807;
 	$seed: $seed % $max-int32;
 
-	@if ($seed <= 0) {
+	@if $seed <= 0 {
 		$seed: $seed + ($max-int32 - 1);
 	}
 
@@ -417,21 +417,19 @@
 ///   	font-family: $system-fonts;
 ///   }
 $system-fonts:
-	'-apple-system',
 	'system-ui',
-	'BlinkMacSystemFont',
+	'-apple-system',
 	'Segoe UI',
-	'Helvetica Neue',
+	'Roboto',
+	'Helvetica',
 	'Arial',
 	'sans-serif',
 	'Apple Color Emoji',
-	'Segoe UI Emoji',
-	'Segoe UI Symbol' !default;
+	'Segoe UI Emoji' !default;
 
 $system-fonts-mono:
 	'SFMono-Regular',
-	'Ubuntu Mono',
 	'Consolas',
-	'DejaVu Sans Mono',
+	'Liberation Mono',
 	'Menlo',
 	'monospace' !default;

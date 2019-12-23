@@ -4,6 +4,7 @@
 	"description": "Useful utilities for working with Sass",
 	"license": "MIT",
 	"repository": "sindresorhus/sass-extras",
+	"funding": "https://github.com/sponsors/sindresorhus",
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
@@ -31,16 +32,16 @@
 		"utilities"
 	],
 	"devDependencies": {
-		"ava": "*",
+		"ava": "^2.4.0",
 		"node-sass": "^4.7.2",
-		"sassdoc": "^2.5.0",
-		"stylelint": "^8.4.0",
-		"stylelint-config-xo-scss": "^0.2.0"
+		"sassdoc": "^2.7.1",
+		"stylelint": "^12.0.0",
+		"stylelint-config-xo-scss": "^0.11.0"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo-scss",
 		"rules": {
-			"scss/at-function-named-arguments": null
+			"scss/no-duplicate-dollar-variables": null
 		}
 	}
 }

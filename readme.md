@@ -4,18 +4,15 @@
 
 It includes functions for using SVG inline, generating random colors, system font stack, PRNG, and more…
 
-
 ## Install
 
 ```
 $ npm install sass-extras
 ```
 
-
 ## Supported browsers
 
 Latest Chrome, Firefox, and Safari.
-
 
 ## Usage
 
@@ -29,11 +26,9 @@ Or with [`sass-loader`](https://github.com/webpack-contrib/sass-loader):
 @import '~sass-extras/index';
 ```
 
-
 ## Docs
 
 [Read the docs.](https://sindresorhus.com/sass-extras)
-
 
 ## Related
 
