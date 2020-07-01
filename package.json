@@ -8,7 +8,7 @@
 	"author": {
 		"name": "Sindre Sorhus",
 		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
+		"url": "https://sindresorhus.com"
 	},
 	"engines": {
 		"node": ">=8"
@@ -35,8 +35,8 @@
 		"ava": "^2.4.0",
 		"node-sass": "^4.7.2",
 		"sassdoc": "^2.7.1",
-		"stylelint": "^12.0.0",
-		"stylelint-config-xo-scss": "^0.11.0"
+		"stylelint": "^13.6.1",
+		"stylelint-config-xo-scss": "^0.13.0"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo-scss",
