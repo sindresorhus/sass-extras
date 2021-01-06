@@ -15,7 +15,8 @@
 	},
 	"scripts": {
 		"test": "stylelint index.scss && ava",
-		"version": "sassdoc index.scss && git add docs"
+		"docs": "sassdoc index.scss",
+		"version": "npm run docs && git add docs"
 	},
 	"files": [
 		"index.scss"

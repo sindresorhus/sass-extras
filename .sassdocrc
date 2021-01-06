@@ -1,4 +1,7 @@
 dest: docs
+descriptionPath: readme.md
+display:
+  watermark: false
 groups:
   number: Number
   string: String
