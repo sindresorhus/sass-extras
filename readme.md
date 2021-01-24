@@ -1,4 +1,4 @@
-# sass-extras [![Build Status](https://travis-ci.com/sindresorhus/sass-extras.svg?branch=master)](https://travis-ci.com/github/sindresorhus/sass-extras)
+# sass-extras
 
 > Useful utilities for working with Sass
 
