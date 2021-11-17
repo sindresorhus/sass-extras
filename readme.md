@@ -6,8 +6,8 @@ It includes functions for using SVG inline, generating random colors, system fon
 
 ## Install
 
-```
-$ npm install sass-extras
+```sh
+npm install sass-extras
 ```
 
 ## Supported browsers

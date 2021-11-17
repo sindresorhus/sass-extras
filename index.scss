@@ -143,11 +143,11 @@
 }
 
 /// Generate a pseudorandom integer.
-/// Uses the [`Park-Miller` algorithm](https://en.m.wikipedia.org/wiki/Lehmer_random_number_generator).
+/// Uses the [`Park-Miller` algorithm](https://en.wikipedia.org/wiki/Lehmer_random_number_generator).
 ///
 /// @group random
 ///
-/// @parameter {Number} $seed - The same [`$seed`](https://en.m.wikipedia.org/wiki/Random_seed) will generate the same number
+/// @parameter {Number} $seed - The same [`$seed`](https://en.wikipedia.org/wiki/Random_seed) will generate the same number
 /// @return {Number}
 ///
 /// @example
@@ -166,13 +166,13 @@
 }
 
 /// Generate a pseudorandom float.
-/// Uses the [`Park-Miller` algorithm](https://en.m.wikipedia.org/wiki/Lehmer_random_number_generator).
+/// Uses the [`Park-Miller` algorithm](https://en.wikipedia.org/wiki/Lehmer_random_number_generator).
 ///
 /// Note: You'll need to increase the default Sass precision to at least 10 for this method to be useful.
 ///
 /// @group random
 ///
-/// @parameter {Number} $seed - The same [`$seed`](https://en.m.wikipedia.org/wiki/Random_seed) will generate the same number
+/// @parameter {Number} $seed - The same [`$seed`](https://en.wikipedia.org/wiki/Random_seed) will generate the same number
 /// @return {Number}
 ///
 /// @example
@@ -185,11 +185,11 @@
 }
 
 /// Generate a pseudorandom boolean.
-/// Uses the [`Park-Miller` algorithm](https://en.m.wikipedia.org/wiki/Lehmer_random_number_generator).
+/// Uses the [`Park-Miller` algorithm](https://en.wikipedia.org/wiki/Lehmer_random_number_generator).
 ///
 /// @group random
 ///
-/// @parameter {Number} $seed - The same [`$seed`](https://en.m.wikipedia.org/wiki/Random_seed) will generate the same number
+/// @parameter {Number} $seed - The same [`$seed`](https://en.wikipedia.org/wiki/Random_seed) will generate the same number
 /// @return {Boolean}
 ///
 /// @example

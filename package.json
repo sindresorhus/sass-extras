@@ -10,11 +10,13 @@
 		"email": "sindresorhus@gmail.com",
 		"url": "https://sindresorhus.com"
 	},
+	"type": "module",
+	"exports": "./index.js",
 	"engines": {
-		"node": ">=8"
+		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
 	},
 	"scripts": {
-		"test": "stylelint index.scss && ava",
+		"test": "xo && stylelint index.scss && ava",
 		"docs": "sassdoc index.scss",
 		"version": "npm run docs && git add docs"
 	},
@@ -33,16 +35,22 @@
 		"utilities"
 	],
 	"devDependencies": {
-		"ava": "^2.4.0",
-		"node-sass": "^4.7.2",
-		"sassdoc": "^2.7.1",
+		"ava": "^3.15.0",
+		"node-sass": "^6.0.1",
+		"sassdoc": "^2.7.3",
 		"stylelint": "^13.6.1",
-		"stylelint-config-xo-scss": "^0.13.0"
+		"stylelint-config-xo-scss": "^0.14.0",
+		"xo": "^0.46.4"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo-scss",
 		"rules": {
 			"scss/no-duplicate-dollar-variables": null
 		}
+	},
+	"xo": {
+		"ignores": [
+			"docs"
+		]
 	}
 }
