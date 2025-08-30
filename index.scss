@@ -1,3 +1,10 @@
+@use 'sass:color';
+@use 'sass:list';
+@use 'sass:meta';
+@use 'sass:selector';
+@use 'sass:string';
+@use 'sass:math';
+
 /// Strip the unit from a number.
 ///
 /// @group number
@@ -9,7 +16,7 @@
 ///   @debug strip-unit(5px);
 ///   //=> 5
 @function strip-unit($number) {
-	@return $number / ($number * 0 + 1);
+	@return math.div($number, $number * 0 + 1);
 }
 
 /// Clamp `$number` between `$min` and `$max`.
@@ -54,7 +61,7 @@
 ///   @debug string-contains('foo bar baz', $substring: 'bar');
 ///   //=> true
 @function string-contains($string, $substring) {
-	@return str-index($string, $substring) != null;
+	@return string.index($string, $substring) != null;
 }
 
 /// Check if `$string` starts with the given `$substring`.
@@ -69,7 +76,7 @@
 ///   @debug string-starts-with('foo bar', $substring: 'foo');
 ///   //=> true
 @function string-starts-with($string, $substring) {
-	@return str-index($string, $substring) == 1;
+	@return string.index($string, $substring) == 1;
 }
 
 /// Check if `$string` ends with the given `$substring`.
@@ -86,7 +93,7 @@
 @function string-ends-with($string, $substring) {
 	// This crashes libsass…
 	// @return str-slice($string, str-length($substring) * -1) == $substring;
-	@return str-slice($string, (str-length($string) - str-length($substring) + 1)) == $substring;
+	@return string.slice($string, (string.length($string) - string.length($substring) + 1)) == $substring;
 }
 
 /// Replace substring `$search` in `$string` with `$replacement`.
@@ -102,13 +109,13 @@
 ///   @debug string-replace('foo bar baz', $search: 'bar', $replacement: 'unicorn');
 ///   //=> 'foo unicorn baz'
 @function string-replace($string, $search, $replacement: '') {
-	$index: str-index($string: $string, $substring: $search);
+	$index: string.index($string: $string, $substring: $search);
 
 	@if $index {
 		@return
-			str-slice($string, $start-at: 1, $end-at: $index - 1)
+			string.slice($string, $start-at: 1, $end-at: $index - 1)
 			+ $replacement
-			+ string-replace(str-slice($string, $start-at: $index + str-length($search)), $search, $replacement);
+			+ string-replace(string.slice($string, $start-at: $index + string.length($search)), $search, $replacement);
 	}
 
 	@return $string;
@@ -125,7 +132,7 @@
 ///   @debug list-first((1, 2, 3));
 ///   //=> 1
 @function list-first($list) {
-	@return nth($list, 1);
+	@return list.nth($list, 1);
 }
 
 /// Get the last element of `$list`.
@@ -139,7 +146,7 @@
 ///   @debug list-last((1, 2, 3));
 ///   //=> 3
 @function list-last($list) {
-	@return nth($list, -1);
+	@return list.nth($list, -1);
 }
 
 /// Generate a pseudorandom integer.
@@ -181,7 +188,7 @@
 @function seed-random-float($seed) {
 	$max-int32: 2147483647;
 	$integer: seed-random-integer($seed);
-	@return ($integer - 1) / ($max-int32 - 1);
+	@return math.div($integer - 1, $max-int32 - 1);
 }
 
 /// Generate a pseudorandom boolean.
@@ -219,8 +226,8 @@
 @function random-color($saturation: 0.5, $lightness: 0.5) {
 	/* stylelint-disable-next-line number-max-precision */
 	$golden-ratio-conjugate: 0.618033988749895;
-	$hue: (random() + $golden-ratio-conjugate) % 1;
-	@return hsl($hue * 360, $saturation * 100, $lightness * 100);
+	$hue: (math.random() + $golden-ratio-conjugate) % 1;
+	@return hsl($hue * 360, $saturation * 100%, $lightness * 100%);
 }
 
 /// Encode URL-unsafe characters in `$string`.
@@ -282,7 +289,7 @@
 ///   	color: #ffc6d0;
 ///   }
 @function tint($color, $percentage) {
-	@return mix(#fff, $color, $percentage);
+	@return color.mix(#fff, $color, $percentage);
 }
 
 /// Darken a color by mixing it with black.
@@ -303,7 +310,7 @@
 ///   	color: #e6adb7;
 ///   }
 @function shade($color, $percentage) {
-	@return mix(#000, $color, $percentage);
+	@return color.mix(#000, $color, $percentage);
 }
 
 /// Get the color black with a given `$opacity`.
@@ -323,7 +330,7 @@
 ///   	color: rgba(0, 0, 0, 0.1);
 ///   }
 @function black($opacity) {
-	@return rgba(0, 0, 0, $opacity / 100%);
+	@return rgba(0, 0, 0, math.div($opacity, 100%));
 }
 
 /// Get the color white with a given `$opacity`.
@@ -343,7 +350,7 @@
 ///   	color: rgba(255, 255, 255, 0.1);
 ///   }
 @function white($opacity) {
-	@return rgba(255, 255, 255, $opacity / 100%);
+	@return rgba(255, 255, 255, math.div($opacity, 100%));
 }
 
 /// Use SVG anywhere a `url()` is accepted, like in a `background` property.
@@ -357,7 +364,7 @@
 @function svg-url($svg) {
 	// Add missing namespace
 	$namespace: 'xmlns="http://www.w3.org/2000/svg"';
-	@if not str-index($string: $svg, $substring: $namespace) {
+	@if not string.index($string: $svg, $substring: $namespace) {
 		$svg: string-replace($string: $svg, $search: '<svg', $replacement: '<svg #{$namespace}');
 	}
 
@@ -407,7 +414,7 @@
 ///   	color: blue;
 ///   }
 @mixin context($changed, $to) {
-	@at-root #{selector-replace(&, $changed, $to)} {
+	@at-root #{selector.replace(&, $changed, $to)} {
 		@content;
 	}
 }

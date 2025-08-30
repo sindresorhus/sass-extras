@@ -1,14 +1,12 @@
 import test from 'ava';
-import sass from 'node-sass';
+import * as sass from 'sass';
 
 const render = data => {
-	const result = sass.renderSync({
-		data: `@import './index';\n${data}`,
-		indentType: 'tab',
-		outputStyle: 'compact',
-		precision: 10,
+	const result = sass.compileString(`@use './index' as *;\n${data}`, {
+		style: 'expanded',
+		loadPaths: ['.'],
 	});
-	return result.css.toString();
+	return result.css;
 };
 
 const snapshot = (t, data) => {
@@ -24,7 +22,9 @@ const snapshotFunction = (t, data) => {
 };
 
 const functionResultsAreEqual = (t, a, b) => {
-	t.is(render(`a { top: ${a} }`).slice(9, -4), b);
+	const css = render(`a { top: ${a} }`);
+	const match = css.match(/top:\s*([^;]+);/);
+	t.is(match ? match[1] : '', b);
 };
 
 test('strip-unit()', t => {
@@ -89,8 +89,8 @@ test('seed-random-boolean()', t => {
 });
 
 test('random-color()', t => {
-	t.regex(render('a { width: random-color() }'), /a { width: #[a-z\d]+; }/);
-	t.regex(render('a { width: random-color($saturation: 0.8, $lightness: 0.3) }'), /a { width: #[a-z\d]+; }/);
+	t.regex(render('a { width: random-color() }'), /a\s*{\s*width:\s*(#[a-f\d]+|hsl\([^)]+\));?\s*}/i);
+	t.regex(render('a { width: random-color($saturation: 0.8, $lightness: 0.3) }'), /a\s*{\s*width:\s*(#[a-f\d]+|hsl\([^)]+\));?\s*}/i);
 });
 
 test('url-encode()', t => {
