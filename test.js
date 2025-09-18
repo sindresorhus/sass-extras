@@ -33,11 +33,6 @@ test('strip-unit()', t => {
 	snapshotFunction(t, 'strip-unit(1)');
 });
 
-test('number-clamp()', t => {
-	snapshotFunction(t, 'number-clamp(4, 5, 10)');
-	snapshotFunction(t, 'number-clamp(10px, 1px, 5px)');
-});
-
 test('number-invert()', t => {
 	snapshotFunction(t, 'number-invert(1)');
 	snapshotFunction(t, 'number-invert(-1)');

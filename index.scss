@@ -19,22 +19,6 @@
 	@return math.div($number, $number * 0 + 1);
 }
 
-/// Clamp `$number` between `$min` and `$max`.
-///
-/// @group number
-///
-/// @parameter {Number} $number - Number to clamp
-/// @parameter {Number} $min - Minimum number
-/// @parameter {Number} $max - Maximum number
-/// @return {Number}
-///
-/// @example
-///   @debug math-clamp(1, 2, 4);
-///   //=> 2
-@function number-clamp($number, $min, $max) {
-	@return min(max($number, $min), $max);
-}
-
 /// Invert a number.
 ///
 /// @group number
