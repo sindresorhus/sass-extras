@@ -11,13 +11,9 @@
 		"url": "https://sindresorhus.com"
 	},
 	"type": "module",
-	"exports": "./index.js",
-	"engines": {
-		"node": "^12.20.0 || ^14.13.1 || >=16.0.0"
-	},
+	"exports": "./index.scss",
 	"scripts": {
-		"//test": "xo && stylelint index.scss && ava",
-		"test": "stylelint index.scss && ava",
+		"test": "xo && stylelint index.scss && ava",
 		"docs": "sassdoc index.scss",
 		"version": "npm run docs && git add docs"
 	},
@@ -36,17 +32,18 @@
 		"utilities"
 	],
 	"devDependencies": {
-		"ava": "^3.15.0",
-		"sass": "^1.77.8",
-		"sassdoc": "^2.7.3",
-		"stylelint": "^13.6.1",
-		"stylelint-config-xo-scss": "^0.14.0",
-		"xo": "^0.46.4"
+		"ava": "^6.4.1",
+		"sass": "^1.92.1",
+		"sassdoc": "^2.7.4",
+		"stylelint": "^16.24.0",
+		"stylelint-config-xo-scss": "^1.0.1",
+		"xo": "^1.2.2"
 	},
 	"stylelint": {
 		"extends": "stylelint-config-xo-scss",
 		"rules": {
-			"scss/no-duplicate-dollar-variables": null
+			"scss/no-duplicate-dollar-variables": null,
+			"scss/function-no-unknown": null
 		}
 	},
 	"xo": {
