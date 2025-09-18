@@ -196,6 +196,7 @@
 ///
 /// @parameter {Number} $saturation [0.5] - Color saturation in the range `0...1`
 /// @parameter {Number} $lightness [0.5] - Color lightness in the range `0...1`
+/// @parameter {Number} $seed [null] - Optional seed for deterministic color generation
 /// @return {Color}
 ///
 /// @example
@@ -203,14 +204,27 @@
 ///   	background-color: random-color();
 ///   }
 ///
+/// @example
+///   .bar {
+///   	background-color: random-color($seed: 42);
+///   }
+///
 /// @example css - Output CSS
 ///   .foo {
 ///   	background-color: random-color();
 ///   }
-@function random-color($saturation: 0.5, $lightness: 0.5) {
+@function random-color($saturation: 0.5, $lightness: 0.5, $seed: null) {
 	/* stylelint-disable-next-line number-max-precision */
 	$golden-ratio-conjugate: 0.618033988749895;
-	$hue: (math.random() + $golden-ratio-conjugate) % 1;
+	$hue: null;
+
+	@if $seed {
+		$hue: (seed-random-float($seed) + $golden-ratio-conjugate) % 1;
+	}
+	@else {
+		$hue: (math.random() + $golden-ratio-conjugate) % 1;
+	}
+
 	@return hsl($hue * 360, $saturation * 100%, $lightness * 100%);
 }
 

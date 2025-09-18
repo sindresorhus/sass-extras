@@ -86,6 +86,16 @@ test('seed-random-boolean()', t => {
 test('random-color()', t => {
 	t.regex(render('a { width: random-color() }'), /a\s*{\s*width:\s*(#[a-f\d]+|hsl\([^)]+\));?\s*}/i);
 	t.regex(render('a { width: random-color($saturation: 0.8, $lightness: 0.3) }'), /a\s*{\s*width:\s*(#[a-f\d]+|hsl\([^)]+\));?\s*}/i);
+
+	// Test seeded random color - should produce consistent results
+	const seeded1 = render('a { width: random-color($seed: 42) }');
+	const seeded2 = render('a { width: random-color($seed: 42) }');
+	t.is(seeded1, seeded2);
+	t.regex(seeded1, /a\s*{\s*width:\s*(#[a-f\d]+|hsl\([^)]+\));?\s*}/i);
+
+	// Different seeds should produce different colors
+	const seeded3 = render('a { width: random-color($seed: 123) }');
+	t.not(seeded1, seeded3);
 });
 
 test('url-encode()', t => {
